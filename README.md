@@ -90,6 +90,21 @@ SHA-256 of the entire previous line, and that the first line's `prev` is
 `genesis`. To check *when* a record existed, use this repository's commit
 history, not the `committed_at` field.
 
+## Heartbeat records (added 2026-08-25)
+
+On a day when the engines run but NO decision meets its gate, the daily job
+commits a `heartbeat:<date>` record and reveals it immediately (payload:
+`{"source": "heartbeat", "decisions_today": 0, ...}`). Two reasons:
+
+- **Attested absence is evidence.** A no-trade day proves the discipline
+  was active and declined - which is different from the machine being off.
+- **It keeps the anchor cadence daily**, so a silent gap in this repository
+  means a real continuity gap (machine down or job broken), never "quiet
+  market". The first fire of our own gap alarm (2026-08-24) could not tell
+  those apart; now it can.
+
+Heartbeats use the same salt, hash, and prev-chain as every other record.
+
 ## What this is not
 
 Not investment advice, not a solicitation, not a performance claim. Paper
